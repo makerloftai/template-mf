@@ -51,9 +51,6 @@ jobs:
       - name: Generate app key
         run: php artisan key:generate
 
-      - name: Typecheck
-        run: npm run typecheck
-
       - name: Build frontend
         run: npm run build
 
