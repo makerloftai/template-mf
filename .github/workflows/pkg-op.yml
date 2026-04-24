@@ -1,0 +1,35 @@
+name: pkg-op
+run-name: ${{ inputs.correlation_id }}
+
+# Thin stub: the real logic lives in makerloftai/pkg-op-runner so every
+# scaffolded app stays in sync with one update. This file only exists
+# because `workflow_dispatch` requires the trigger to live in the repo
+# being dispatched to. Don't edit — makerloft's upgrade path will
+# overwrite it if inputs change.
+
+on:
+  workflow_dispatch:
+    inputs:
+      correlation_id: { required: true,  type: string }
+      kind:           { required: true,  type: string }
+      action:         { required: true,  type: string }
+      package:        { required: true,  type: string }
+      version:        { required: false, type: string }
+      dev:            { required: false, type: string, default: "false" }
+
+permissions:
+  contents: read
+
+jobs:
+  call:
+    # Pin to @main during early rollout. When the workflow stabilizes,
+    # switch to a specific tag (e.g. @v1) and bump explicitly when the
+    # shape of inputs or outputs changes.
+    uses: makerloftai/pkg-op-runner/.github/workflows/pkg-op.yml@main
+    with:
+      correlation_id: ${{ inputs.correlation_id }}
+      kind:           ${{ inputs.kind }}
+      action:         ${{ inputs.action }}
+      package:        ${{ inputs.package }}
+      version:        ${{ inputs.version }}
+      dev:            ${{ inputs.dev }}
