@@ -12,7 +12,9 @@
 
         <!-- Styles -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @fluxAppearance
     </head>
     <body class="antialiased font-sans">
+        @fluxScripts
     </body>
 </html>
