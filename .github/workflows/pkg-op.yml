@@ -22,10 +22,14 @@ permissions:
 
 jobs:
   call:
-    # Pin to @main during early rollout. When the workflow stabilizes,
-    # switch to a specific tag (e.g. @v1) and bump explicitly when the
-    # shape of inputs or outputs changes.
-    uses: makerloftai/pkg-op-runner/.github/workflows/pkg-op.yml@main
+    # Pinned to a specific commit SHA. A mutable @main pin would let any
+    # compromise of the pkg-op-runner repo cascade to every user app's
+    # next package-add (workflow runs with read-only token, but the
+    # output bytes flow back through MakerLoft's GitHub App and land in
+    # the user repo). Bump deliberately when pkg-op-runner ships changes
+    # to its inputs/outputs; the comment carries the branch the SHA was
+    # taken from for traceability.
+    uses: makerloftai/pkg-op-runner/.github/workflows/pkg-op.yml@d4acfc761b7393299b231678411ca3383c71d442 # main as of 2026-04-26
     with:
       correlation_id: ${{ inputs.correlation_id }}
       kind:           ${{ inputs.kind }}
